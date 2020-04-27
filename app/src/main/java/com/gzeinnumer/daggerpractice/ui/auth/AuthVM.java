@@ -2,6 +2,9 @@ package com.gzeinnumer.daggerpractice.ui.auth;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.LiveDataReactiveStreams;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.gzeinnumer.daggerpractice.network.authApi.AuthApi;
@@ -19,6 +22,8 @@ public class AuthVM extends ViewModel {
     private static final String TAG = "AuthVM";
     //ingat object yang ada didalam function yang di inject, itu sudah ada di @Provide Module
     private AuthApi authApi;
+
+
     @Inject
     AuthVM(AuthApi authApi){
         this.authApi = authApi;
@@ -51,5 +56,25 @@ public class AuthVM extends ViewModel {
 
                     }
                 });
+    }
+
+    private MediatorLiveData<ResponseLogin> authUser = new MediatorLiveData<>();
+    void authWithId(int userId){
+        final LiveData<ResponseLogin> source =LiveDataReactiveStreams.fromPublisher(
+                authApi.getUser(userId)
+                .subscribeOn(Schedulers.io())
+        );
+
+        authUser.addSource(source, new androidx.lifecycle.Observer<ResponseLogin>() {
+            @Override
+            public void onChanged(ResponseLogin responseLogin) {
+                authUser.setValue(responseLogin);
+                authUser.removeSource(source);
+            }
+        });
+    }
+
+    LiveData<ResponseLogin> observeUser(){
+        return authUser;
     }
 }
