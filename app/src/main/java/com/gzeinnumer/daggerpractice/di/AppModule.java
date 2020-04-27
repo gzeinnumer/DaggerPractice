@@ -9,11 +9,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.gzeinnumer.daggerpractice.R;
+import com.gzeinnumer.daggerpractice.util.Constant;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 class AppModule {
@@ -41,5 +44,14 @@ class AppModule {
     @Provides
     static Drawable providesDrawable(Application application){
         return ContextCompat.getDrawable(application, R.mipmap.ic_launcher);
+    }
+
+    @Singleton
+    @Provides
+    static Retrofit providesRetrofit(){
+        return new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 }
