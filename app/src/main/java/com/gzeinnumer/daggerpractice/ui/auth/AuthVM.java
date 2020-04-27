@@ -5,8 +5,14 @@ import android.util.Log;
 import androidx.lifecycle.ViewModel;
 
 import com.gzeinnumer.daggerpractice.network.authApi.AuthApi;
+import com.gzeinnumer.daggerpractice.network.authApi.model.ResponseLogin;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class AuthVM extends ViewModel {
 
@@ -22,5 +28,28 @@ public class AuthVM extends ViewModel {
         } else {
             Log.d(TAG, "AuthVM: api is not NULL");
         }
+
+        authApi.getUser(1).toObservable().subscribeOn(Schedulers.io()).
+                subscribe(new Observer<ResponseLogin>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseLogin responseLogin) {
+                        Log.d(TAG, "onNext: "+ responseLogin.getEmail());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError: "+ e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }
