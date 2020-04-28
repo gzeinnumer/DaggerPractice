@@ -26,6 +26,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toast.makeText(this, "BaseActivity", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onCreate: created");
         subscribeObservers();
     }
 

@@ -1,6 +1,7 @@
 package com.gzeinnumer.daggerpractice.ui.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d(TAG, "onCreate: created");
         Toast.makeText(this, "MainActivity", Toast.LENGTH_SHORT).show();
     }
 }
