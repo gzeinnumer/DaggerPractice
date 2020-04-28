@@ -76,7 +76,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
     }
     private void subcribeObservers() {
         progressBar = findViewById(R.id.progress_bar);
-        viewModel.observeUser().observe(this, new Observer<AuthResource<ResponseLogin>>() {
+        viewModel.observeAuthState().observe(this, new Observer<AuthResource<ResponseLogin>>() {
             @Override
             public void onChanged(AuthResource<ResponseLogin> responseLoginAuthResource) {
                 if(responseLoginAuthResource != null){

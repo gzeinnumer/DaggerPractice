@@ -3,6 +3,7 @@ package com.gzeinnumer.daggerpractice.di;
 import android.app.Application;
 
 import com.gzeinnumer.daggerpractice.BaseApplication;
+import com.gzeinnumer.daggerpractice.SessionManager;
 
 import javax.inject.Singleton;
 
@@ -29,4 +30,6 @@ public interface AppComponent extends AndroidInjector<BaseApplication> {
 
         AppComponent build();
     }
+
+    SessionManager sessionManager();
 }

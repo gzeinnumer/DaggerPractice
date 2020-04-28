@@ -8,6 +8,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.gzeinnumer.daggerpractice.SessionManager;
 import com.gzeinnumer.daggerpractice.network.authApi.AuthApi;
 import com.gzeinnumer.daggerpractice.network.authApi.model.ResponseLogin;
 
@@ -23,48 +24,33 @@ public class AuthVM extends ViewModel {
     private static final String TAG = "AuthVM";
     //ingat object yang ada didalam function yang di inject, itu sudah ada di @Provide Module
     private AuthApi authApi;
+    private SessionManager sessionManager;
 
 
     @Inject
-    AuthVM(AuthApi authApi){
+    AuthVM(AuthApi authApi, SessionManager sessionManager){
         this.authApi = authApi;
+        this.sessionManager = sessionManager;
         Log.d(TAG, "AuthVM: viewmodel sudah bekerja");
         if(this.authApi == null){
             Log.d(TAG, "AuthVM: api is NULL");
         } else {
             Log.d(TAG, "AuthVM: api is not NULL");
         }
-//
-//        authApi.getUser(1).toObservable().subscribeOn(Schedulers.io()).
-//                subscribe(new Observer<AuthResource<ResponseLogin>>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(AuthResource<ResponseLogin> responseLoginAuthResource) {
-//                        Log.d(TAG, "onNext: "+ responseLoginAuthResource.data.getEmail());
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d(TAG, "onError: "+e.getMessage());
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//
-//                    }
-//                });
     }
 
-    private MediatorLiveData<AuthResource<ResponseLogin>> authUser = new MediatorLiveData<>();
+//    private MediatorLiveData<AuthResource<ResponseLogin>> authUser = new MediatorLiveData<>();
     void authWithId(final int userId){
+        Log.d(TAG, "authWithId: attempting to login");
+        sessionManager.authenticatedWithId(queryUserId(userId));
+    }
 
-        authUser.setValue(AuthResource.loading((ResponseLogin) null));
+    LiveData<AuthResource<ResponseLogin>> observeAuthState(){
+        return sessionManager.getAuthUser();
+    }
 
-        final LiveData<AuthResource<ResponseLogin>> source =LiveDataReactiveStreams.fromPublisher(
+    private LiveData<AuthResource<ResponseLogin>> queryUserId(int userId){
+        return LiveDataReactiveStreams.fromPublisher(
                 authApi.getUser(userId)
                         .onErrorReturn(new Function<Throwable, ResponseLogin>() {
                             @Override
@@ -83,19 +69,7 @@ public class AuthVM extends ViewModel {
                                 return AuthResource.authenticated(responseLogin);
                             }
                         })
-                .subscribeOn(Schedulers.io())
+                        .subscribeOn(Schedulers.io())
         );
-
-        authUser.addSource(source, new Observer<AuthResource<ResponseLogin>>() {
-            @Override
-            public void onChanged(AuthResource<ResponseLogin> responseLoginAuthResource) {
-                authUser.setValue(responseLoginAuthResource);
-                authUser.removeSource(source);
-            }
-        });
-    }
-
-    LiveData<AuthResource<ResponseLogin>> observeUser(){
-        return authUser;
     }
 }
