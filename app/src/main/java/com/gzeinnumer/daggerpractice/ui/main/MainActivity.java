@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.gzeinnumer.daggerpractice.BaseActivity;
 import com.gzeinnumer.daggerpractice.R;
+import com.gzeinnumer.daggerpractice.ui.main.profile.ProfileFragment;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -23,6 +24,12 @@ public class MainActivity extends BaseActivity {
 
         Log.d(TAG, "onCreate: created");
         Toast.makeText(this, "MainActivity", Toast.LENGTH_SHORT).show();
+
+        initFragment();
+    }
+
+    private void initFragment() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ProfileFragment()).commit();
     }
 
     @Override
