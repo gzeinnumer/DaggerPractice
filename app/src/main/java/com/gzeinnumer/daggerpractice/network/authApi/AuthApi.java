@@ -1,6 +1,7 @@
 package com.gzeinnumer.daggerpractice.network.authApi;
 
 import com.gzeinnumer.daggerpractice.network.authApi.model.ResponseLogin;
+import com.gzeinnumer.daggerpractice.ui.auth.AuthResource;
 
 import io.reactivex.Flowable;
 import retrofit2.Call;

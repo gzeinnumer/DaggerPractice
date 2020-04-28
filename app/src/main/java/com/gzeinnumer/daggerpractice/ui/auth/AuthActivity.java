@@ -7,12 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
 import com.gzeinnumer.daggerpractice.R;
 import com.gzeinnumer.daggerpractice.network.authApi.model.ResponseLogin;
 import com.gzeinnumer.daggerpractice.vm.ViewModelProviderFactory;
@@ -66,12 +66,36 @@ public class AuthActivity extends DaggerAppCompatActivity {
         requestManager.load(logo).into((ImageView) findViewById(R.id.login_logo));
     }
 
+    private ProgressBar progressBar;
+    private void showLoading(Boolean isVisible){
+        if(isVisible){
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
     private void subcribeObservers() {
-        viewModel.observeUser().observe(this, new Observer<ResponseLogin>() {
+        progressBar = findViewById(R.id.progress_bar);
+        viewModel.observeUser().observe(this, new Observer<AuthResource<ResponseLogin>>() {
             @Override
-            public void onChanged(ResponseLogin responseLogin) {
-                if(responseLogin != null){
-                    Log.d(TAG, "onChanged: "+ responseLogin.getEmail());
+            public void onChanged(AuthResource<ResponseLogin> responseLoginAuthResource) {
+                if(responseLoginAuthResource != null){
+                    switch (responseLoginAuthResource.status){
+                        case LOADING:
+                            showLoading(true);
+                            break;
+                        case AUTHENTICATED:
+                            showLoading(false);
+                            Log.d(TAG, "onChanged: Login AUTHENTICATED "+responseLoginAuthResource.data.getEmail());
+                            break;
+                        case ERROR:
+                            showLoading(false);
+                            Log.d(TAG, "onChanged: Login ERROR " + responseLoginAuthResource.message + " Only 1-10 Number avaliable");
+                            break;
+                        case NOT_AUTHENTICATED:
+                            showLoading(false);
+                            break;
+                    }
                 }
             }
         });
