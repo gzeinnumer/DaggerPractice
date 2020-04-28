@@ -6,13 +6,13 @@ import androidx.annotation.Nullable;
 public class AuthResource<T> {
 
     @NonNull
-    final AuthStatus status;
+    final public AuthStatus status;
 
     @Nullable
-    final T data;
+    final public T data;
 
     @Nullable
-    final String message;
+    final public String message;
 
 
     private AuthResource(@NonNull AuthStatus status, @Nullable T data, @Nullable String message) {

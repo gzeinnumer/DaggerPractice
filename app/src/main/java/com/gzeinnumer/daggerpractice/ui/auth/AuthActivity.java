@@ -1,5 +1,6 @@
 package com.gzeinnumer.daggerpractice.ui.auth;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bumptech.glide.RequestManager;
 import com.gzeinnumer.daggerpractice.R;
 import com.gzeinnumer.daggerpractice.network.authApi.model.ResponseLogin;
+import com.gzeinnumer.daggerpractice.ui.main.MainActivity;
 import com.gzeinnumer.daggerpractice.vm.ViewModelProviderFactory;
 
 import javax.inject.Inject;
@@ -87,6 +89,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
                         case AUTHENTICATED:
                             showLoading(false);
                             Log.d(TAG, "onChanged: Login AUTHENTICATED "+responseLoginAuthResource.data.getEmail());
+                            onLoginSuccess();
                             break;
                         case ERROR:
                             showLoading(false);
@@ -99,5 +102,11 @@ public class AuthActivity extends DaggerAppCompatActivity {
                 }
             }
         });
+    }
+
+    private void onLoginSuccess(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

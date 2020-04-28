@@ -3,6 +3,7 @@ package com.gzeinnumer.daggerpractice.di;
 import com.gzeinnumer.daggerpractice.di.auth.AuthModule;
 import com.gzeinnumer.daggerpractice.di.auth.AuthViewModelsModule;
 import com.gzeinnumer.daggerpractice.ui.auth.AuthActivity;
+import com.gzeinnumer.daggerpractice.ui.main.MainActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -26,4 +27,7 @@ abstract class ActivityBuilderModule {
             modules = {AuthViewModelsModule.class, AuthModule.class}
     )
     abstract AuthActivity constributeAuthActivity();
+
+    @ContributesAndroidInjector
+    abstract MainActivity constributeMainActivity();
 }
