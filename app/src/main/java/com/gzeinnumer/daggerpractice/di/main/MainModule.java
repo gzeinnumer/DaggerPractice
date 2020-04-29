@@ -1,6 +1,7 @@
 package com.gzeinnumer.daggerpractice.di.main;
 
 import com.gzeinnumer.daggerpractice.network.mainApi.MainApi;
+import com.gzeinnumer.daggerpractice.ui.main.post.PostsRecyclerAdapter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -11,5 +12,10 @@ public class MainModule {
     @Provides
     static MainApi providesMainApi(Retrofit retrofit){
         return retrofit.create(MainApi.class);
+    }
+
+    @Provides
+    static PostsRecyclerAdapter providesRecyclerAdapter(){
+        return new PostsRecyclerAdapter();
     }
 }
