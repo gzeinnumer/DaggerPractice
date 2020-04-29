@@ -19,6 +19,10 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.gzeinnumer.daggerpractice.BaseActivity;
 import com.gzeinnumer.daggerpractice.R;
+import com.gzeinnumer.daggerpractice.network.authApi.model.ResponseLogin;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MainActivity";
@@ -34,6 +38,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Toast.makeText(this, "MainActivity", Toast.LENGTH_SHORT).show();
 
         initFragment();
+
+//        initScopeExample();
     }
 
     private void initFragment() {
@@ -100,4 +106,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private boolean isValidDestination(int destination){
         return destination != Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination().getId();
     }
+
+//    @Inject
+//    @Named("app_login")
+//    ResponseLogin responseLogin1;
+//
+//    @Inject
+//    @Named("auth_login")
+//    ResponseLogin responseLogin2;
+//
+//    private void initScopeExample() {
+//        Log.d(TAG, "initScopeExample: "+responseLogin1);
+//        Log.d(TAG, "initScopeExample: "+responseLogin2);
+//    }
 }
