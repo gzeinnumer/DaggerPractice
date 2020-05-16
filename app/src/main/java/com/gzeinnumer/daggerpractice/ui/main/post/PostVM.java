@@ -55,7 +55,7 @@ public class PostVM extends ViewModel {
                         @Override
                         public MainResource<List<ResponsePost>> apply(List<ResponsePost> responsePosts) throws Exception {
                             if(responsePosts.size() > 0){
-                                if(responsePosts.get(0).getId() == 1){
+                                if(responsePosts.get(0).getId() == -1){
                                     return MainResource.error("Ada yang salah", null);
                                 }
                             }

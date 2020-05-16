@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.RequestManager;
 import com.gzeinnumer.daggerpractice.R;
+import com.gzeinnumer.daggerpractice.di.Named;
 import com.gzeinnumer.daggerpractice.network.authApi.model.ResponseLogin;
 import com.gzeinnumer.daggerpractice.ui.main.MainActivity;
 import com.gzeinnumer.daggerpractice.vm.ViewModelProviderFactory;
@@ -39,6 +40,14 @@ public class AuthActivity extends DaggerAppCompatActivity {
     ViewModelProviderFactory providerFactory;
     private AuthVM viewModel;
 
+    @Inject
+    @Named("app_login")
+    ResponseLogin responseLogin1;
+
+    @Inject
+    @Named("auth_login")
+    ResponseLogin responseLogin2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +58,9 @@ public class AuthActivity extends DaggerAppCompatActivity {
         setLogo();
 
         viewModel = ViewModelProviders.of(this, providerFactory).get(AuthVM.class);
+
+        Log.d(TAG, "onCreate: responseLogin1 : "+responseLogin1);
+        Log.d(TAG, "onCreate: responseLogin2 : "+responseLogin2);
 
         findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override

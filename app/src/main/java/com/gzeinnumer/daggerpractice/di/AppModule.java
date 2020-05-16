@@ -10,9 +10,11 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.gzeinnumer.daggerpractice.R;
 import com.gzeinnumer.daggerpractice.network.authApi.model.ResponseLogin;
+import com.gzeinnumer.daggerpractice.ui.main.MainActivity;
 import com.gzeinnumer.daggerpractice.util.Constant;
 
-import javax.inject.Named;
+import com.gzeinnumer.daggerpractice.di.Named;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -59,14 +61,14 @@ class AppModule {
                 .build();
     }
 
-    //scope-example
-    //disini memori tidak akan di create ulang
-    //@Named untuk membuat 2 buah @Provides yang me return hal yang sama, kita butuh menggunakan @Named
-    //dan gunakan @Named dinawah @Inject, lihat di MainActivity
-//    @Singleton
-//    @Provides
-//    @Named("app_login")
-//    static ResponseLogin responseLogin1(){
-//        return new ResponseLogin();
-//    }
+//    scope-example
+//    disini memori tidak akan di create ulang
+//    @Named untuk membuat 2 buah @Provides yang me return hal yang sama, kita butuh menggunakan @Named
+//    dan gunakan @Named dinawah @Inject, lihat di MainActivity
+    @Singleton
+    @Provides
+    @Named("app_login")
+    static ResponseLogin responseLogin1(){
+        return new ResponseLogin();
+    }
 }
